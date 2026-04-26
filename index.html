@@ -246,7 +246,7 @@
       /* Hide web layout entirely */
       header, .tagline-block, main, .print-bar, footer { display: none; }
 
-      @page { margin: 0; size: letter portrait; }
+      @page { margin: 0.25in; size: letter portrait; }
 
       body { margin: 0; padding: 0; background: #fff; }
 
@@ -255,7 +255,7 @@
       /* ── Each flyer: half-sheet landscape (8.5 × 5.5in) ── */
       .flyer {
         width: 8.5in;
-        height: 5.5in;
+        height: 5.1in;
         display: grid;
         grid-template-columns: 2.65in 5.85in;
         overflow: hidden;
@@ -402,14 +402,16 @@
       /* Cut guide between flyers */
       .flyer-cut {
         width: 8.5in;
+        height: 0.3in;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         border-top: 0.5pt dashed #bbb;
-        text-align: center;
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         font-size: 7pt;
         color: #bbb;
         letter-spacing: 0.2em;
         text-transform: uppercase;
-        padding-top: 2pt;
       }
     }
   </style>
