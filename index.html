@@ -188,6 +188,57 @@
       color: var(--gray);
     }
 
+    /* ── SCHEDULE ────────────────────────────── */
+    .schedule-list {
+      list-style: none;
+    }
+
+    .schedule-item {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid rgba(0,0,0,0.12);
+    }
+
+    .schedule-item:last-child { border-bottom: none; }
+
+    .schedule-date {
+      font-size: clamp(1.1rem, 4vw, 1.6rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      line-height: 1;
+      min-width: 0;
+    }
+
+    .schedule-time {
+      font-size: clamp(0.75rem, 2.5vw, 1rem);
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray);
+      flex-shrink: 0;
+    }
+
+    .schedule-item.cancelled .schedule-date {
+      text-decoration: line-through;
+      opacity: 0.35;
+    }
+
+    .schedule-item.cancelled .schedule-time {
+      display: none;
+    }
+
+    .schedule-note {
+      font-size: clamp(0.65rem, 2vw, 0.8rem);
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gray);
+      flex-shrink: 0;
+    }
+
     /* ── PRINT STYLES ────────────────────────── */
     @media print {
       @page { margin: 0.5in; size: letter portrait; }
@@ -232,12 +283,10 @@
 
   <main>
 
-    <section>
-      <p class="label">Next Session</p>
-      <p class="event-line">[Day of Week]</p>
-      <p class="event-line">[Date]</p>
-      <p class="event-line">[Time]</p>
-      <p class="event-line thin">Private Residence — Arcata, CA</p>
+    <section id="schedule-section">
+      <p class="label">Upcoming Sessions</p>
+      <ul class="schedule-list" id="schedule-list"></ul>
+      <p class="event-line thin" style="margin-top:1.25rem">Private Residence — Arcata, CA</p>
       <p class="event-line thin">Address sent upon RSVP</p>
     </section>
 
@@ -258,7 +307,7 @@
 
     <section class="contact">
       <p class="label">RSVP &amp; Contact</p>
-      <a href="mailto:breathe@freebreathwork.org">breathe@freebreathwork.org</a>
+      <a href="mailto:hello@freebreathwork.org">hello@freebreathwork.org</a>
     </section>
 
   </main>
@@ -268,6 +317,43 @@
   </div>
 
   <footer>freebreathwork.org &nbsp;·&nbsp; Arcata, CA &nbsp;·&nbsp; Free. Always.</footer>
+
+  <script>
+    // ── SCHEDULE CONFIG ──────────────────────────────────────────────────────
+    // Add or remove Saturday entries below.
+    // To cancel a weekend you're out of town, set cancelled: true and add a note.
+    // Example:  { date: "June 7, 2026",  cancelled: true, note: "Out of Town" }
+    const SESSIONS = [
+      { date: "May 2, 2026",   cancelled: false },
+      { date: "May 9, 2026",   cancelled: false },
+      { date: "May 16, 2026",  cancelled: false },
+      { date: "May 23, 2026",  cancelled: false },
+    ];
+    const SESSION_TIME = "2:00 PM";
+    // ────────────────────────────────────────────────────────────────────────
+
+    const list = document.getElementById("schedule-list");
+    SESSIONS.forEach(function(s) {
+      const li = document.createElement("li");
+      li.className = "schedule-item" + (s.cancelled ? " cancelled" : "");
+      const dateEl = document.createElement("span");
+      dateEl.className = "schedule-date";
+      dateEl.textContent = s.date;
+      li.appendChild(dateEl);
+      if (!s.cancelled) {
+        const timeEl = document.createElement("span");
+        timeEl.className = "schedule-time";
+        timeEl.textContent = SESSION_TIME;
+        li.appendChild(timeEl);
+      } else {
+        const noteEl = document.createElement("span");
+        noteEl.className = "schedule-note";
+        noteEl.textContent = s.note || "Cancelled";
+        li.appendChild(noteEl);
+      }
+      list.appendChild(li);
+    });
+  </script>
 
 </body>
 </html>
