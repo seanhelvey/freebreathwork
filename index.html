@@ -241,22 +241,33 @@
 
     /* ── PRINT STYLES ────────────────────────── */
     @media print {
-      @page { margin: 0.5in; size: letter portrait; }
+      @page { margin: 0.35in; size: letter portrait; }
 
       .print-bar { display: none; }
 
-      header {
-        padding: 0.6in 0.2in 0.35in;
-      }
+      header { padding: 0.2in 0.2in 0.15in; }
+      .site-title { font-size: 3rem; }
+      .site-sub { margin-top: 0.3rem; font-size: 0.6rem; }
 
-      .site-title { font-size: 6.5rem; }
+      .tagline-block { padding: 0.18in 0.2in; }
+      .tagline { font-size: 2.1rem; }
+      .tagline-sub { margin-top: 0.4rem; font-size: 0.7rem; }
 
-      .tagline-block { padding: 0.5in 0.2in; }
-      .tagline { font-size: 3.75rem; }
+      section { padding: 0.15in 0.2in; }
+      .label { margin-bottom: 0.6rem; }
 
-      section { padding: 0.35in 0.2in; }
+      .schedule-item { padding: 0.3rem 0; }
+      .schedule-date { font-size: 1rem; }
+      .schedule-time { font-size: 0.65rem; }
 
-      .strip { padding: 0.3in 0.2in; }
+      .event-line.thin { font-size: 0.85rem; margin-top: 0.35rem; }
+
+      .principles li { font-size: 0.9rem; padding: 0.4rem 0; }
+
+      .strip { padding: 0.15in 0.2in; }
+      .strip-text { font-size: 1rem; letter-spacing: 0.06em; }
+
+      .contact a { font-size: 1rem; }
 
       footer {
         position: fixed;
@@ -264,7 +275,7 @@
         left: 0;
         right: 0;
         text-align: center;
-        padding: 0.2in;
+        padding: 0.1in;
       }
     }
   </style>
