@@ -240,44 +240,176 @@
     }
 
     /* ── PRINT STYLES ────────────────────────── */
+    #flyer-print { display: none; }
+
     @media print {
-      @page { margin: 0.35in; size: letter portrait; }
+      /* Hide web layout entirely */
+      header, .tagline-block, main, .print-bar, footer { display: none; }
 
-      html { zoom: 0.78; }
+      @page { margin: 0; size: letter portrait; }
 
-      .print-bar { display: none; }
+      body { margin: 0; padding: 0; background: #fff; }
 
-      header { padding: 0.2in 0.2in 0.15in; }
-      .site-title { font-size: 3rem; }
-      .site-sub { margin-top: 0.3rem; font-size: 0.6rem; }
+      #flyer-print { display: block; width: 8.5in; }
 
-      .tagline-block { padding: 0.18in 0.2in; }
-      .tagline { font-size: 2.1rem; }
-      .tagline-sub { margin-top: 0.4rem; font-size: 0.7rem; }
+      /* ── Each flyer: half-sheet landscape (8.5 × 5.5in) ── */
+      .flyer {
+        width: 8.5in;
+        height: 5.5in;
+        display: grid;
+        grid-template-columns: 2.65in 5.85in;
+        overflow: hidden;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
 
-      section { padding: 0.15in 0.2in; }
-      .label { margin-bottom: 0.6rem; }
+      /* Left column: black block with big stacked type */
+      .flyer-l {
+        background: #000;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        color: #fff;
+        padding: 0.28in 0.22in 0.28in 0.26in;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
 
-      .schedule-item { padding: 0.3rem 0; }
-      .schedule-date { font-size: 1rem; }
-      .schedule-time { font-size: 0.65rem; }
+      .flyer-name {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 2.9rem;
+        font-weight: 900;
+        letter-spacing: -0.03em;
+        line-height: 0.88;
+        text-transform: uppercase;
+        color: #fff;
+      }
 
-      .event-line.thin { font-size: 0.85rem; margin-top: 0.35rem; }
+      .flyer-loc {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 0.46rem;
+        font-weight: 400;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: #666;
+      }
 
-      .principles li { font-size: 0.9rem; padding: 0.4rem 0; }
+      /* Right column: structured event info */
+      .flyer-r {
+        padding: 0.28in 0.3in 0.28in 0.32in;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        border-left: 1.5px solid #000;
+      }
 
-      .strip { padding: 0.15in 0.2in; }
-      .strip-text { font-size: 1rem; letter-spacing: 0.06em; }
+      .flyer-r hr {
+        border: none;
+        border-top: 1px solid #000;
+        margin: 0;
+        flex-shrink: 0;
+      }
 
-      .contact a { font-size: 1rem; }
+      .flyer-when {
+        line-height: 1.2;
+      }
 
-      footer {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
+      .flyer-when strong {
+        display: block;
+        font-size: 1.05rem;
+        font-weight: 900;
+        letter-spacing: -0.01em;
+        text-transform: uppercase;
+        color: #000;
+      }
+
+      .flyer-when span {
+        font-size: 0.52rem;
+        font-weight: 400;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: #888;
+      }
+
+      .flyer-dates {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .flyer-dates li {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        padding: 0.05rem 0;
+        font-size: 0.82rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        color: #000;
+      }
+
+      .flyer-dates li.cancelled {
+        opacity: 0.28;
+      }
+
+      .flyer-dates li.cancelled .fd-date {
+        text-decoration: line-through;
+      }
+
+      .fd-time {
+        font-weight: 400;
+        font-size: 0.48rem;
+        letter-spacing: 0.18em;
+        color: #888;
+      }
+
+      .fd-note {
+        font-weight: 400;
+        font-size: 0.48rem;
+        letter-spacing: 0.18em;
+        color: #aaa;
+      }
+
+      .flyer-where {
+        font-size: 0.5rem;
+        font-weight: 400;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: #777;
+        line-height: 1.8;
+      }
+
+      .flyer-tagline {
+        font-size: 1.05rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: -0.02em;
+        line-height: 1;
+        color: #000;
+      }
+
+      .flyer-contact {
+        font-size: 0.48rem;
+        font-weight: 400;
+        letter-spacing: 0.12em;
+        color: #777;
+        line-height: 1.9;
+        text-transform: lowercase;
+      }
+
+      /* Cut guide between flyers */
+      .flyer-cut {
+        width: 8.5in;
+        border-top: 0.5pt dashed #bbb;
         text-align: center;
-        padding: 0.1in;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 7pt;
+        color: #bbb;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        padding-top: 2pt;
       }
     }
   </style>
@@ -331,6 +463,8 @@
 
   <footer>freebreathwork.org &nbsp;·&nbsp; Arcata, CA &nbsp;·&nbsp; Free. Always.</footer>
 
+  <div id="flyer-print"></div>
+
   <script>
     // ── SCHEDULE CONFIG ──────────────────────────────────────────────────────
     // Add or remove Saturday entries below.
@@ -346,6 +480,7 @@
     const SESSION_TIME = "2:00 PM";
     // ────────────────────────────────────────────────────────────────────────
 
+    // ── Web schedule list ────────────────────────────────────────────────────
     const list = document.getElementById("schedule-list");
     SESSIONS.forEach(function(s) {
       const li = document.createElement("li");
@@ -367,6 +502,44 @@
       }
       list.appendChild(li);
     });
+
+    // ── Print flyers (2-up half-sheets, generated from same SESSIONS data) ──
+    function buildFlyer() {
+      const dates = SESSIONS.map(function(s) {
+        return '<li class="' + (s.cancelled ? "cancelled" : "") + '">' +
+          '<span class="fd-date">' + s.date + '</span>' +
+          (s.cancelled
+            ? '<span class="fd-note">' + (s.note || "Cancelled") + '</span>'
+            : '<span class="fd-time">' + SESSION_TIME + '</span>') +
+          '</li>';
+      }).join("");
+
+      return '<div class="flyer">' +
+        '<div class="flyer-l">' +
+          '<div class="flyer-name">Free<br>Breath<br>Work</div>' +
+          '<div class="flyer-loc">Arcata, California</div>' +
+        '</div>' +
+        '<div class="flyer-r">' +
+          '<div class="flyer-when">' +
+            '<strong>Saturdays &middot; ' + SESSION_TIME + '</strong>' +
+            '<span>First Saturday of the Month &mdash; Free. Always.</span>' +
+          '</div>' +
+          '<hr>' +
+          '<ul class="flyer-dates">' + dates + '</ul>' +
+          '<hr>' +
+          '<div class="flyer-where">Private Residence &mdash; Arcata, California<br>Address sent upon RSVP</div>' +
+          '<hr>' +
+          '<div class="flyer-tagline">You don&rsquo;t need to pay to breathe.</div>' +
+          '<hr>' +
+          '<div class="flyer-contact">hello@freebreathwork.org<br>freebreathwork.org</div>' +
+        '</div>' +
+      '</div>';
+    }
+
+    document.getElementById("flyer-print").innerHTML =
+      buildFlyer() +
+      '<div class="flyer-cut">✂ &nbsp; cut here &nbsp; ✂</div>' +
+      buildFlyer();
   </script>
 
 </body>
