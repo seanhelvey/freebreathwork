@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FREE BREATHWORK — ARCATA, CA</title>
+  <meta name="description" content="Free community breathwork in Arcata, CA. No cost. Ever. Breathing has always been free.">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #000;
+      --white: #fff;
+      --gray: #888;
+      --rule: 1px solid #000;
+      --font: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background: var(--white);
+      color: var(--black);
+      font-family: var(--font);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    /* ── HEADER ──────────────────────────────── */
+    header {
+      background: var(--black);
+      color: var(--white);
+      padding: clamp(2rem, 8vw, 4rem) clamp(1.25rem, 5vw, 3rem);
+    }
+
+    .site-title {
+      font-size: clamp(4.5rem, 20vw, 11rem);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 0.88;
+      text-transform: uppercase;
+    }
+
+    .site-sub {
+      margin-top: 1.25rem;
+      font-size: clamp(0.7rem, 2.5vw, 1rem);
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gray);
+    }
+
+    /* ── TAGLINE ─────────────────────────────── */
+    .tagline-block {
+      padding: clamp(2.5rem, 8vw, 5rem) clamp(1.25rem, 5vw, 3rem);
+      border-bottom: var(--rule);
+    }
+
+    .tagline {
+      font-size: clamp(2.25rem, 9vw, 5.5rem);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 0.95;
+      text-transform: uppercase;
+    }
+
+    .tagline-sub {
+      margin-top: 1.5rem;
+      font-size: clamp(0.85rem, 2.5vw, 1.1rem);
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gray);
+    }
+
+    /* ── SECTIONS ────────────────────────────── */
+    section {
+      padding: clamp(2rem, 6vw, 3.5rem) clamp(1.25rem, 5vw, 3rem);
+      border-bottom: var(--rule);
+    }
+
+    .label {
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 1.25rem;
+    }
+
+    /* ── EVENT INFO ──────────────────────────── */
+    .event-line {
+      font-size: clamp(1.75rem, 6vw, 3.25rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+    }
+
+    .event-line.thin {
+      font-weight: 300;
+      font-size: clamp(1rem, 3.5vw, 1.75rem);
+      letter-spacing: 0.05em;
+      margin-top: 0.5rem;
+    }
+
+    /* ── PRINCIPLES ──────────────────────────── */
+    .principles {
+      list-style: none;
+    }
+
+    .principles li {
+      font-size: clamp(1.1rem, 4vw, 1.75rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      line-height: 1.2;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid rgba(0,0,0,0.12);
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .principles li:last-child { border-bottom: none; }
+
+    .principles li::before {
+      content: "—";
+      flex-shrink: 0;
+      opacity: 0.3;
+    }
+
+    /* ── TAGLINE STRIP ───────────────────────── */
+    .strip {
+      background: var(--black);
+      color: var(--white);
+      padding: clamp(1.5rem, 5vw, 2.5rem) clamp(1.25rem, 5vw, 3rem);
+      border-bottom: var(--rule);
+    }
+
+    .strip-text {
+      font-size: clamp(1rem, 4vw, 2rem);
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ── CONTACT ─────────────────────────────── */
+    .contact a {
+      display: block;
+      margin-top: 0.5rem;
+      font-size: clamp(1rem, 4vw, 1.75rem);
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      color: var(--black);
+      text-decoration: none;
+      word-break: break-all;
+    }
+
+    .contact a:hover { text-decoration: underline; }
+
+    /* ── PRINT BUTTON ────────────────────────── */
+    .print-bar {
+      padding: clamp(1.5rem, 5vw, 2.5rem) clamp(1.25rem, 5vw, 3rem);
+      border-bottom: var(--rule);
+    }
+
+    .print-btn {
+      font-family: var(--font);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      background: none;
+      color: var(--black);
+      border: 1.5px solid var(--black);
+      padding: 0.65rem 1.5rem;
+      cursor: pointer;
+      transition: background 0.1s, color 0.1s;
+    }
+
+    .print-btn:hover { background: var(--black); color: var(--white); }
+
+    /* ── FOOTER ──────────────────────────────── */
+    footer {
+      padding: 1.25rem clamp(1.25rem, 5vw, 3rem);
+      font-size: 0.55rem;
+      font-weight: 400;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gray);
+    }
+
+    /* ── PRINT STYLES ────────────────────────── */
+    @media print {
+      @page { margin: 0.5in; size: letter portrait; }
+
+      .print-bar { display: none; }
+
+      header {
+        padding: 0.6in 0.2in 0.35in;
+      }
+
+      .site-title { font-size: 6.5rem; }
+
+      .tagline-block { padding: 0.5in 0.2in; }
+      .tagline { font-size: 3.75rem; }
+
+      section { padding: 0.35in 0.2in; }
+
+      .strip { padding: 0.3in 0.2in; }
+
+      footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        text-align: center;
+        padding: 0.2in;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1 class="site-title">Free<br>Breath<br>Work</h1>
+    <p class="site-sub">Arcata, California</p>
+  </header>
+
+  <div class="tagline-block">
+    <p class="tagline">You don't need<br>to pay<br>to breathe.</p>
+    <p class="tagline-sub">Breathing has always been free.</p>
+  </div>
+
+  <main>
+
+    <section>
+      <p class="label">Next Session</p>
+      <p class="event-line">[Day of Week]</p>
+      <p class="event-line">[Date]</p>
+      <p class="event-line">[Time]</p>
+      <p class="event-line thin">Private Residence — Arcata, CA</p>
+      <p class="event-line thin">Address sent upon RSVP</p>
+    </section>
+
+    <section>
+      <p class="label">What to Know</p>
+      <ul class="principles">
+        <li>No experience necessary</li>
+        <li>All bodies welcome</li>
+        <li>No cost. Ever.</li>
+        <li>Bring a mat or blanket</li>
+        <li>Allow ~90 minutes</li>
+      </ul>
+    </section>
+
+    <div class="strip">
+      <p class="strip-text">It's free to breathe. It always was.</p>
+    </div>
+
+    <section class="contact">
+      <p class="label">RSVP &amp; Contact</p>
+      <a href="mailto:breathe@freebreathwork.org">breathe@freebreathwork.org</a>
+    </section>
+
+  </main>
+
+  <div class="print-bar">
+    <button class="print-btn" onclick="window.print()">Print Flyer</button>
+  </div>
+
+  <footer>freebreathwork.org &nbsp;·&nbsp; Arcata, CA &nbsp;·&nbsp; Free. Always.</footer>
+
+</body>
+</html>
