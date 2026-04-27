@@ -1,18 +1,13 @@
 """
 Automated checks for freebreathwork.org print layout and copy.
 
-Verifies CSS height math so the 2-up flyer always fits on one letter page,
-and checks that combative copy hasn't crept back in.
-
 Run:  python3 test_print_layout.py
 """
 
-import re
-import sys
+import re, sys
 
 PASS = "\033[32mPASS\033[0m"
 FAIL = "\033[31mFAIL\033[0m"
-
 failures = []
 
 def check(label, condition, detail=""):
@@ -22,66 +17,83 @@ def check(label, condition, detail=""):
         print(f"  {FAIL}  {label}" + (f" — {detail}" if detail else ""))
         failures.append(label)
 
+def extract_in(pattern, html, flags=0):
+    m = re.search(pattern, html, flags)
+    return float(m.group(1)) if m else None
+
 with open("index.html") as f:
     html = f.read()
 
-print("\n── Print layout dimensions ──────────────────────────────────────────")
+# Pull the @media print block only so we don't match screen-only CSS
+print_block = re.search(r"@media print\s*\{(.+)", html, re.DOTALL)
+print_css = print_block.group(1) if print_block else ""
 
-# Extract @page margin
-margin_match = re.search(r"@page\s*\{[^}]*margin:\s*([\d.]+)in", html)
-page_margin_in = float(margin_match.group(1)) if margin_match else None
-check("@page margin is defined in inches", page_margin_in is not None)
+LETTER_W, LETTER_H = 8.5, 11.0
 
-# Extract flyer height
-flyer_h_match = re.search(r"\.flyer\s*\{[^}]*height:\s*([\d.]+)in", html, re.DOTALL)
-flyer_h_in = float(flyer_h_match.group(1)) if flyer_h_match else None
-check("Flyer height is defined in inches", flyer_h_in is not None)
+print("\n── Page setup ───────────────────────────────────────────────────────")
 
-# Extract cut line height
-cut_h_match = re.search(r"\.flyer-cut\s*\{[^}]*height:\s*([\d.]+)in", html, re.DOTALL)
-cut_h_in = float(cut_h_match.group(1)) if cut_h_match else None
-check("Cut line height is defined in inches", cut_h_in is not None)
+margin = extract_in(r"@page\s*\{[^}]*margin:\s*([\d.]+)in", print_css)
+check("@page margin defined in inches", margin is not None)
+if margin:
+    check(f"Margin ≤ 0.5in (got {margin}in)", margin <= 0.5,
+          "too large — reduces printable area too much")
 
-if page_margin_in and flyer_h_in and cut_h_in:
-    letter_h = 11.0
-    printable_h = letter_h - (page_margin_in * 2)
-    total_content = (flyer_h_in * 2) + cut_h_in
-    fits = total_content <= printable_h + 0.01  # 0.01in rounding tolerance
+print("\n── Height: both flyers must fit on one page ─────────────────────────")
+
+flyer_h = extract_in(r"\.flyer\s*\{[^}]*height:\s*([\d.]+)in", print_css, re.DOTALL)
+cut_h   = extract_in(r"\.flyer-cut\s*\{[^}]*height:\s*([\d.]+)in", print_css, re.DOTALL)
+check("Flyer height defined in inches", flyer_h is not None)
+check("Cut line height defined in inches", cut_h is not None)
+
+if margin and flyer_h and cut_h:
+    printable_h = LETTER_H - margin * 2
+    total_h = flyer_h * 2 + cut_h
     check(
-        f"Two flyers ({flyer_h_in}in × 2) + cut ({cut_h_in}in) = {total_content}in "
-        f"fits in printable height {printable_h}in",
-        fits,
-        f"overflow by {total_content - printable_h:.3f}in" if not fits else ""
+        f"2 flyers ({flyer_h}in×2) + cut ({cut_h}in) = {total_h}in "
+        f"≤ printable {printable_h}in",
+        total_h <= printable_h + 0.01,
+        f"overflows by {total_h - printable_h:.3f}in — will push to page 2"
     )
 
-print("\n── Copy: no combative language ─────────────────────────────────────")
+print("\n── Width: right column must not overflow printable area ─────────────")
 
-combative = [
-    "you don't need",
-    "you do not need",
-    "pay to breathe",
-    "don't pay",
-]
-for phrase in combative:
-    present = phrase.lower() in html.lower()
-    check(f'No "{phrase}" in copy', not present, "found in HTML")
+flyer_w = extract_in(r"\.flyer\s*\{[^}]*width:\s*([\d.]+)in", print_css, re.DOTALL)
+cols_match = re.search(r"grid-template-columns:\s*([\d.]+)in\s+([\d.]+)in", print_css)
+padding_match = re.search(r"\.flyer-r\s*\{[^}]*padding:\s*[\d.]+in\s+[\d.]+in\s+[\d.]+in\s+([\d.]+)in", print_css, re.DOTALL)
+rpad_match = re.search(r"\.flyer-r\s*\{[^}]*padding:\s*[\d.]+in\s+([\d.]+)in", print_css, re.DOTALL)
 
-print("\n── Copy: positive phrases present ──────────────────────────────────")
+check("Flyer width defined", flyer_w is not None)
+check("Grid columns defined", cols_match is not None)
 
-positive = [
-    "breathing has always been free",
-    "explore",
-    "free to breathe",
-]
-for phrase in positive:
+if margin and flyer_w and cols_match and rpad_match:
+    printable_w = LETTER_W - margin * 2
+    left_col = float(cols_match.group(1))
+    right_col = float(cols_match.group(2))
+    right_pad = float(rpad_match.group(1))
+    content_right_edge = left_col + right_col - right_pad
+    check(
+        f"Right column content edge ({content_right_edge:.2f}in) "
+        f"≤ printable width ({printable_w}in)",
+        content_right_edge <= printable_w + 0.01,
+        f"overflows by {content_right_edge - printable_w:.3f}in — text will be clipped"
+    )
+
+print("\n── Copy: no combative language ──────────────────────────────────────")
+
+for phrase in ["you don't need", "you do not need", "pay to breathe", "don't pay"]:
+    check(f'No "{phrase}"', phrase.lower() not in html.lower(), "found in HTML")
+
+print("\n── Copy: key phrases present ────────────────────────────────────────")
+
+for phrase in ["breathing has always been free", "explore", "free to breathe"]:
     check(f'"{phrase}" present', phrase.lower() in html.lower())
 
 print("\n── Schedule config ──────────────────────────────────────────────────")
 
 check("SESSIONS array defined", "const SESSIONS" in html)
 check("SESSION_TIME defined", "const SESSION_TIME" in html)
-session_count = len(re.findall(r"\{\s*date:", html))
-check(f"At least 1 session defined ({session_count} found)", session_count >= 1)
+count = len(re.findall(r"\{\s*date:", html))
+check(f"At least 1 session ({count} found)", count >= 1)
 
 print()
 if failures:
