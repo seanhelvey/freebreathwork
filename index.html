@@ -48,6 +48,14 @@
       color: var(--gray);
     }
 
+    /* ── RAINBOW RULE ────────────────────────── */
+    .rainbow-rule {
+      height: 3px;
+      background: linear-gradient(to right,
+        #e40303, #ff8c00, #ffed00, #008026, #004dff, #750787
+      );
+    }
+
     /* ── TAGLINE ─────────────────────────────── */
     .tagline-block {
       padding: clamp(2.5rem, 8vw, 5rem) clamp(1.25rem, 5vw, 3rem);
@@ -311,6 +319,16 @@
         flex-shrink: 0;
       }
 
+      .flyer-r hr.rainbow {
+        border: none;
+        height: 2px;
+        background: linear-gradient(to right,
+          #e40303, #ff8c00, #ffed00, #008026, #004dff, #750787
+        );
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
       .flyer-when {
         line-height: 1.2;
       }
@@ -423,6 +441,8 @@
     <p class="site-sub">Arcata, California</p>
   </header>
 
+  <div class="rainbow-rule" role="presentation"></div>
+
   <div class="tagline-block">
     <p class="tagline">Breathing<br>has always<br>been free.</p>
     <p class="tagline-sub">Explore. Play. Journey. Every first Saturday in Arcata.</p>
@@ -526,7 +546,7 @@
             '<strong>Saturdays &middot; ' + SESSION_TIME + '</strong>' +
             '<span>First Saturday of the Month &mdash; Free. Always.</span>' +
           '</div>' +
-          '<hr>' +
+          '<hr class="rainbow">' +
           '<ul class="flyer-dates">' + dates + '</ul>' +
           '<hr>' +
           '<div class="flyer-where">Private Residence &mdash; Arcata, California<br>Address sent upon RSVP</div>' +
