@@ -304,12 +304,26 @@
 
       /* Right column: structured event info */
       .flyer-r {
-        padding: 0.28in 0.55in 0.28in 0.32in;
+        padding: 0.28in 0.55in 0.28in 0.38in;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-        border-left: 1.5px solid #000;
+        position: relative;
+      }
+
+      .flyer-r::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 3px;
+        height: 100%;
+        background: linear-gradient(to bottom,
+          #e40303, #ff8c00, #ffed00, #008026, #004dff, #750787
+        );
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
       }
 
       .flyer-r hr {
@@ -317,16 +331,6 @@
         border-top: 1px solid #000;
         margin: 0;
         flex-shrink: 0;
-      }
-
-      .flyer-r hr.rainbow {
-        border: none;
-        height: 2px;
-        background: linear-gradient(to right,
-          #e40303, #ff8c00, #ffed00, #008026, #004dff, #750787
-        );
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
       }
 
       .flyer-when {
@@ -546,7 +550,7 @@
             '<strong>Saturdays &middot; ' + SESSION_TIME + '</strong>' +
             '<span>First Saturday of the Month &mdash; Free. Always.</span>' +
           '</div>' +
-          '<hr class="rainbow">' +
+          '<hr>' +
           '<ul class="flyer-dates">' + dates + '</ul>' +
           '<hr>' +
           '<div class="flyer-where">Private Residence &mdash; Arcata, California<br>Address sent upon RSVP</div>' +
