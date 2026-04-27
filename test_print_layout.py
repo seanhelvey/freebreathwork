@@ -25,7 +25,7 @@ def check(label, condition, detail=""):
 with open("index.html") as f:
     html = f.read()
 
-print("\n── Print layout height math ─────────────────────────────────────────")
+print("\n── Print layout dimensions ──────────────────────────────────────────")
 
 # Extract @page margin
 margin_match = re.search(r"@page\s*\{[^}]*margin:\s*([\d.]+)in", html)
